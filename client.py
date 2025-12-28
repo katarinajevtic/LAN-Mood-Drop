@@ -46,7 +46,7 @@ def start_client():
 
     print("Command:")
     print("/mood happy|tired|angry|focused")
-    print("/users    → who is online")
+    print("/users    → online users")
     print("/stats    → mood statistic")
     print("/history  → message history")
     print("exit      → exit\n")
@@ -71,5 +71,6 @@ def start_client():
 
 if __name__ == "__main__":
     start_client()
+
 
 
