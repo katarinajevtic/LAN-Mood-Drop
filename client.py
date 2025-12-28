@@ -28,7 +28,7 @@ def receive_messages(sock):
             break
 
 def choose_mood():
-    print("Izaberi raspoloženje:")
+    print("Choose mood:")
     print("1 - 😄 happy")
     print("2 - 😵 tired")
     print("3 - 😡 angry")
@@ -42,14 +42,14 @@ def start_client():
     print("Connected to LAN Mood Drop\n")
 
     mood = choose_mood()
-    print(f"\nTrenutni mood: {mood}\n")
+    print(f"\nCurrent mood: {mood}\n")
 
-    print("Komande:")
+    print("Command:")
     print("/mood happy|tired|angry|focused")
-    print("/users    → ko je online")
-    print("/stats    → mood statistika")
-    print("/history  → prethodne poruke")
-    print("exit      → izlaz\n")
+    print("/users    → who is online")
+    print("/stats    → mood statistic")
+    print("/history  → message history")
+    print("exit      → exit\n")
 
     threading.Thread(
         target=receive_messages,
@@ -71,3 +71,5 @@ def start_client():
 
 if __name__ == "__main__":
     start_client()
+
+
