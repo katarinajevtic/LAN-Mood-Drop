@@ -16,7 +16,7 @@ clients = []
 clients_lock = threading.Lock()
 
 client_moods = {}          # socket -> mood
-message_history = []       # poslednje poruke
+message_history = []
 MAX_HISTORY = 20
 
 mood_counter = Counter()
@@ -40,7 +40,7 @@ def broadcast(message, sender=None):
                     clients.remove(c)
 
 def send_stats(to_socket):
-    response = "\n📊 Mood statistika:\n"
+    response = "\n📊 Mood statistic:\n"
     for mood, emoji in VALID_MOODS.items():
         response += f"{emoji} {mood}: {mood_counter[mood]}\n"
     response += "\n"
@@ -54,17 +54,17 @@ def send_users(to_socket):
         ]
 
     response = "\n👥 Online users:\n"
-    response += "\n".join(users) if users else "Nema aktivnih korisnika"
+    response += "\n".join(users) if users else "No online users"
     response += "\n\n"
 
     to_socket.sendall(response.encode())
 
 def send_history(to_socket):
     if not message_history:
-        to_socket.sendall("📭 Nema prethodnih poruka.\n\n".encode())
+        to_socket.sendall("📭 No message history.\n\n".encode())
         return
 
-    response = "\n📜 History (poslednje poruke):\n"
+    response = "\n📜 History (last messages):\n"
     for msg in message_history:
         response += msg
     response += "\n"
@@ -87,17 +87,17 @@ def handle_client(client_socket, address):
             raw = data.decode().strip()
             timestamp = datetime.now().strftime("%H:%M:%S")
 
-            # ---- KOMANDE ----
+            # ---- COMMANDS ----
             if raw.startswith("/mood"):
                 parts = raw.split()
                 if len(parts) == 2 and parts[1] in VALID_MOODS:
                     client_moods[client_socket] = parts[1]
                     client_socket.sendall(
-                        f"✅ Mood promenjen u {parts[1]}\n".encode()
+                        f"✅ Mood changed to {parts[1]}\n".encode()
                     )
                 else:
                     client_socket.sendall(
-                        "❌ Koristi: /mood happy|tired|angry|focused\n".encode()
+                        "❌ Use: /mood happy|tired|angry|focused\n".encode()
                     )
                 continue
 
@@ -113,7 +113,7 @@ def handle_client(client_socket, address):
                 send_history(client_socket)
                 continue
 
-            # ---- OBIČNA PORUKA ----
+
             mood = client_moods.get(client_socket, "unknown")
             emoji = VALID_MOODS.get(mood, "❓")
 
@@ -170,3 +170,5 @@ def start_server():
 
 if __name__ == "__main__":
     start_server()
+
+
